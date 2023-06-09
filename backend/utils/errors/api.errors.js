@@ -13,6 +13,9 @@ class APIError extends Error {
 
     // Using 500 as default value if none is specified.
     this.status = statusCode || 500;
+
+    // create a return object:
+    this.returnObject = { success: false, message: message};
   }
 }
 

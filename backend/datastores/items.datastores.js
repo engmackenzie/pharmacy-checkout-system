@@ -1,9 +1,8 @@
-const { Item } = require('../models');
+const connect = require('../utils/db/mongoDb');
 
 const createItemDatastore = async (data) => {
-  // use Item to insert to DB
-  const newItem = new Item(data);
-  const createdItem = await newItem.save();
+  const db = await connect;
+  const createdItem = await db.collection('items').insertOne(data);
   return createdItem;
 };
 
