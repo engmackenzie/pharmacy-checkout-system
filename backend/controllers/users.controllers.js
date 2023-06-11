@@ -1,7 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const User = require('../models/users.models');
 const { APIError } = require('../utils/errors');
-const { usersDatastores } = require('../datastores');
+const { usersDatastores, rolesDatastores } = require('../datastores');
+const { getRoleDatastore } = rolesDatastores;
 const { 
   createUserDatastore,
   getUserDatastore,
@@ -19,8 +20,9 @@ const createUserController = async (req, res) => {
     const { error, value } = User.validate(data);
     if (error) throw new APIError(error.message, 400);
 
-    // ensure phone and email uniqueness
-    const exists = 
+    // ensure that roleId exists
+    const role = await getRoleDatastore(value.roleId);
+    if (!role) throw new APIError('Role does not exist', 404);
 
     // call createUser datastore
     await createUserDatastore(value);

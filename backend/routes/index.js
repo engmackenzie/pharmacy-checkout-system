@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const { APIError } = require('../utils/errors');
+
 
 // routes
 router.use('/login', require('./login.routes'));
@@ -13,8 +15,8 @@ router.get('/', (req, res) => {
   res.json({ success: true, message: 'Welcome to the Pharmacy Checkout System API!'  });
 });
 
-router.use((req, res) => {
-  res.status(404).json({ success: false, message: 'Route does not exist'});
+router.use((req, res, next) => {
+  next(new APIError('Route does not exist', 404));
 });
 
 module.exports = router;
