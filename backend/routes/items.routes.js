@@ -1,9 +1,13 @@
 const router = require('express').Router();
 const { authenticationCheck, authorizationCheck } = require('../middleware');
-const { itemsController } = require('../controllers');
+const { itemsControllers } = require('../controllers');
 const {
   createItemController,
-} = itemsController;
+  getItemController,
+  getItemsController,
+  updateItemController,
+  deleteItemController
+} = itemsControllers;
 
 router.post('/', [
   authenticationCheck,
@@ -11,9 +15,30 @@ router.post('/', [
   createItemController
 ]);
 
-// router.get('/', [
-//   authenticationCheck,
-//   authorizationCheck
-// ]);
+router.get('/:_id',[
+  authenticationCheck,
+  authorizationCheck,
+  getItemController
+]);
+
+router.get('/', [
+  authenticationCheck,
+  authorizationCheck,
+  getItemsController
+]);
+
+router.put('/:_id', [
+  authenticationCheck,
+  authorizationCheck,
+  updateItemController
+]);
+
+router.delete('/:_id', [
+  authenticationCheck,
+  authorizationCheck,
+  deleteItemController
+]);
+
+
 
 module.exports = router;

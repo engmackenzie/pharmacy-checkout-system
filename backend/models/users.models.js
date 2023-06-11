@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const userJoiSchema = Joi.object({
+const User = Joi.object({
   _id: Joi.string(),
   email: Joi.string().email().required(),
   firstname: Joi.string().required().min(2),

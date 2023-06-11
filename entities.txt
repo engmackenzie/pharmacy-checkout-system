@@ -3,4 +3,4 @@ User -> id, email, firstname, lastname, phoneno, roleId, status, createdAt, crea
 Menu -> id, name
 Role -> id, name, menuAccess { menuId: { C: 1, R:1, U: 1, D: 1 } }
 auditTrail -> id, userId, accessedMenuName, accessedMenuId, action, accessedAt, comment, createdAt
-Bill -> id, customerId, customerName, paymentMethod, paymentStatus, items [[itemName, noOfItems, unitPrice, subTotal]], total, createdAt, createdBy, updatedAt, updatedBy, AdditionalNotes
+Bill -> id, customerId, customerName, paymentMethod, paymentStatus, items [[itemName, noOfItems, unitPrice, subTotal]], total, createdAt, createdBy, updatedAt, updatedBy
