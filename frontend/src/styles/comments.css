@@ -1,0 +1,46 @@
+.commentsContainer {
+  min-height: 85vh;
+  margin: 20px auto;
+  width: 800px;
+
+}
+
+.comment {
+  background-color: white;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 1px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.comment p {
+  font-size: 12px;
+}
+
+.postCont {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.numComments {
+  padding-top: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.addComment {
+  text-align: center;
+}
+
+.addComment input{
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.addComment button {
+  padding: 2px;
+}
+
+.commentDate {
+  margin-left: auto;
+}

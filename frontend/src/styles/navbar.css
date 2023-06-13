@@ -1,0 +1,26 @@
+nav {
+  padding: 10px;
+  background-color: #F5F5F5;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav ul li {
+  margin: 0 0.5em;
+}
+li span {
+  padding: 0 0.2em;
+  color: rgb(41, 41, 211);
+  font-size: small;
+}
+
+
+footer {
+  text-align: center;
+  background-color: #333030;
+  padding: 10px;
+  color: white;
+}

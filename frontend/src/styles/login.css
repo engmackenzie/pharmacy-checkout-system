@@ -1,0 +1,21 @@
+.loginContainer {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.loginContainer h1,
+#loginButton {
+  text-align: center;
+}
+
+.innerDiv {
+  padding: 30px;
+  margin-top: 20px;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 1px;
+}
+
+.signupInfo {
+  margin-top: 10px;
+  text-align: center;
+}
