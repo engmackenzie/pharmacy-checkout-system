@@ -1,3 +1,4 @@
+/* Navbar CSS */
 nav {
   padding: 10px;
   background-color: #F5F5F5;
@@ -6,18 +7,44 @@ nav {
 nav ul {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Center vertically */
 }
 
 nav ul li {
   margin: 0 0.5em;
 }
-li span {
+
+/* Logout button styling */
+nav ul #logout button {
+  background-color: transparent;
+  border: 1px solid red;
+  border-radius: 3px;
+  cursor: pointer;
+  color: rgb(179, 20, 20);
+  font-weight: bold;
+  transition: color 0.3s ease;
+  width: 100px;
+  padding: 3px;
+}
+
+nav ul #logout button:hover {
+  color: #000; /* Change color on hover */
+}
+
+/* User icon styling */
+nav ul li span {
   padding: 0 0.2em;
   color: rgb(41, 41, 211);
   font-size: small;
+  padding-left: 5px;
 }
 
+/* Additional suggestions */
+nav ul #feed {
+  font-weight: bold;
+}
 
+/* Footer CSS */
 footer {
   text-align: center;
   background-color: #333030;

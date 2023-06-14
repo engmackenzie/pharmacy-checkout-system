@@ -1,22 +1,31 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
 import '../styles/navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = props => {
-  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem('data'));
+
+  const handleLogout = () => {
+    localStorage.clear();
+    props.setIsSignedIn(false);
+  };
 
   return (
     <nav>
       <ul>
-        <li id="feed">{props.heading}</li>
-        <li>
+      <li>
           <FontAwesomeIcon icon={faUser} />
           <span>
-            Admin
+           {userData.firstname + ' ' + userData.lastname + ` (${userData.roleName})`}
           </span>
+        </li>
+        <li id="feed">{props.heading}</li>
+        
+        <li id="logout">
+          <button onClick={() => {handleLogout()}}>
+            Logout
+          </button>
         </li>
         
       </ul>

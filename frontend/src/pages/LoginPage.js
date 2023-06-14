@@ -14,7 +14,7 @@ const LoginPage = props => {
   useEffect(() => {
       if (localStorage.getItem('token')) {
         props.onLogin();
-        navigate('/checkout');
+        navigate('/');
       }
     }
   );
@@ -47,7 +47,7 @@ const LoginPage = props => {
         
         localStorage.setItem('token', data.token);
         localStorage.setItem('data', JSON.stringify(data.data));
-        navigate("/checkout");
+        navigate("/");
       } else {
         toast.error(data.message, {
           position: "top-right",

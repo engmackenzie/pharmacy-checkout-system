@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ClipLoader from "react-spinners/ClipLoader";
 import baseUrl from '../config/config';
 import Cart from "./Cart";
 
@@ -9,8 +10,16 @@ const AddItem = props => {
   const [items, setItems] = useState([]);
   const [customerName, setCustomerName] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [paymentStatus, setPaymentStatus] = useState('paid');
+  const [paymentStatus] = useState('paid');
   const token = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(false);
+  const [color] = useState("#ffffff");
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
 
 
   const handleAddItem = (item) => {
@@ -54,7 +63,6 @@ const AddItem = props => {
 
   const handleCheckout = async (e) => {
     e.preventDefault();
-    console.log('on checkout');
     if (cart.length < 1) {
       toast.warning('Your cart is empty', {
         position: "top-right",
@@ -68,14 +76,22 @@ const AddItem = props => {
       });
       return;
     }
+    setIsLoading(true);
     try {
+      let cartItems = [];
+      let total = 0;
+      cart.forEach((item) => {
+        delete item.itemId;
+        total += item.subTotal;
+        cartItems.push({ ...item });
+      });
       const response = await fetch(`${baseUrl}/bills`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({customerId: ' ', customerName, paymentMethod, paymentStatus, items: cart })
+        body: JSON.stringify({customerId: ' ', customerName, paymentMethod, paymentStatus, items: cartItems, total: total })
       });
 
       const data = await response.json();
@@ -91,6 +107,9 @@ const AddItem = props => {
           progress: undefined,
           theme: "light",
         });
+        setCart([]);
+        setCustomerName('');
+        setPaymentMethod('');
       } else {
         toast.error(data.message || 'Failed to create bill', {
           position: "top-right",
@@ -105,7 +124,18 @@ const AddItem = props => {
       };
 
     } catch(error) {
-      console.log(error);
+      toast.error(error.message|| 'Failed to create bill', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } finally {
+      setIsLoading(false);
     }
     return;
   }
@@ -122,18 +152,7 @@ const AddItem = props => {
       });
       const data = await response.json();
 
-      if (response.status === 200) {
-        console.log(data)
-        toast.info('Items loaded successfully', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      if (response.status === 200) {   
         setItems(data.data);
       } else {
         toast.error(data.message || 'Action was unsuccessful', {
@@ -162,33 +181,44 @@ const AddItem = props => {
     // console.log('cart updated')
   }, [cart]);
 
-  return (
+  return ( 
     <div className="createItem">
+      {isLoading && (
+        <div className="loading-overlay">
+          <ClipLoader
+            color={color}
+            loading={props.loading}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+            className="loader"
+          />
+        </div>
+      )}
       <ToastContainer/>
       <div className="availableItems">
         <h2>ITEMS</h2>
-        {
-          items.map((item) => {
-            return (
-              <div key={item._id} className="item">
-                <div>
-                  {item.name}
-                </div>
-                <div>
-                  {item.desc}
-                </div>
-                <div>
-                  {item.price}
-                </div>
-                <div>
-                  <button onClick={() => handleAddItem(item)}>
-                    ADD
-                  </button>
-                </div>
-              </div>
-            )
-          })
-        }
+        <table>
+          <tbody>
+            { items.length > 0 ?
+              items.map((item) => {
+                return (
+                  <tr key={item._id} className="item">
+                    <td>{item.name}</td>
+                    <td>{item.desc}</td>
+                    <td>{item.price}</td>
+                    <td>
+                      <button onClick={() => handleAddItem(item)}>
+                          ADD
+                      </button>
+                    </td>
+                  </tr>
+                )
+              }) : <tr className="noItems"><td>No items found</td></tr>
+            }
+          </tbody>
+        </table>
       </div>
       
       <Cart cart={cart}/>
