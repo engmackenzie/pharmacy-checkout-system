@@ -9,6 +9,7 @@ import '../styles/checkout.css';
 const Home = props => {
   const [posts, setPosts] = useState([]);
   let [loading, setLoading] = useState(false);
+  const token = localStorage.getItem('token');
 
   // const onCreatePost = async () => {
   //   try {
@@ -31,6 +32,12 @@ const Home = props => {
   // useEffect(() => {
     
   // }, []);
+  useEffect(() => {
+    if (!token) {
+      console.log(token);
+      props.setIsSignedIn(false);
+    }
+  }, []);
 
   return (
     <>

@@ -1,7 +1,9 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import swal from 'sweetalert';
+import baseUrl from '../config/config';
 import '../styles/login.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const LoginPage = props => {
@@ -12,7 +14,7 @@ const LoginPage = props => {
   useEffect(() => {
       if (localStorage.getItem('token')) {
         props.onLogin();
-        navigate('/');
+        navigate('/checkout');
       }
     }
   );
@@ -20,29 +22,43 @@ const LoginPage = props => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/users/login", {
+      const response = await fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ username: email, password })
       });
 
       const data = await response.json();
 
       if (response.status === 200) {
         props.onLogin();
-        console.log(data)
+        toast.success(data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        
         localStorage.setItem('token', data.token);
         localStorage.setItem('data', JSON.stringify(data.data));
-        navigate("/");
+        navigate("/checkout");
       } else {
-        swal({
-          title: "Error",
-          text: data.message,
-          icon: "error"
+        toast.error(data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
-        console.log("Error logging in");
       }
     } catch (error) {
       console.log(error);
@@ -50,6 +66,7 @@ const LoginPage = props => {
   };
   return (
     <section className="loginContainer">
+       <ToastContainer/>
       <div className="innerDiv">
         <h1 className="title">Login</h1>
         <form onSubmit={handleSubmit}>

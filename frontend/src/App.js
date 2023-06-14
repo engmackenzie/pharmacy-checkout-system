@@ -6,12 +6,17 @@ import {
   Navigate,
 } from "react-router-dom";
 import Checkout from "./pages/Checkout";
+import LoginPage from "./pages/LoginPage";
 
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const requiresLogin = Component => {
     return isSignedIn ? Component : <Navigate to="/login" />;
+  };
+
+  const onLogin = () => {
+    setIsSignedIn(true);
   };
 
   useEffect(() => {
@@ -23,8 +28,12 @@ const App = () => {
       <Router>
         <Routes>
           <Route
+            path="/login"
+            element={<LoginPage onLogin={onLogin}/> }
+          />
+          <Route
             path="/checkout"
-            element={<Checkout/> }
+            element={requiresLogin(<Checkout setIsSignedIn={setIsSignedIn}/>) }
           />
         </Routes>
       </Router>
