@@ -322,7 +322,7 @@ const Items = () => {
           onChange={(e) => setItemPrice(e.target.value)}
         />
 
-      <label htmlFor="quantity">Price</label>
+      <label htmlFor="quantity">Quantity</label>
         <input
           type="number"
           id="quantity"
